@@ -53,7 +53,7 @@ export default function ChatPage({ idchat }) {
     const searchChat = async () => {
       try {
         const response = await axios.get(
-          `http://157.173.107.5/3005/user/conversa/${idchat}`, // URL da API
+          `http://157.173.107.5:3005/user/conversa/${idchat}`, // URL da API
           {
             headers: {
               authorization: `${Cookies.get('token')}`, // Token de autorização
@@ -87,7 +87,7 @@ export default function ChatPage({ idchat }) {
 
   const handleSendMessage = async () => {
     const response = await axios.post(
-      'http://157.173.107.5/3005/user/addmsg',  // URL da API
+      'http://157.173.107.5:3005/user/addmsg',  // URL da API
       newMsg,  // Corpo da requisição com a nova mensagem
       {
         headers: {
