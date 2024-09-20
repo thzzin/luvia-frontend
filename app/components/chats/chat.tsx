@@ -131,7 +131,7 @@ export default function ChatPage({ idchat }) {
     {/* Componente para digitar e enviar a resposta */}
     <div className="p-4 border-t flex items-center gap-2">
         <Input
-            className="flex-grow"
+            className="flex-grow py-6"
             placeholder="Digite sua mensagem"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link'; // Importe o componente Link do Next.js
 import {
   Command,
@@ -9,44 +9,33 @@ import {
   CommandList,
 } from "@/components/ui/command";
 
-
-import { User, Gauge, MessageCircleMore, Tag, LogOut, TrendingUpDown } from "lucide-react";
+import { User, MessageCircleMore, Tag } from "lucide-react";
 import Image from 'next/image';
 import Profile from './Profile';
-import { ModeToggle } from './ModeToggle'
+import { ModeToggle } from './ModeToggle';
 
 export default function Sidebar() {
   const [selectedItem, setSelectedItem] = useState('/'); // Ou qualquer caminho padrão
 
   const menuList = [
     {
-      group: "Geral",
+      group: "",
       items: [
         {
           link: "/dashboard/usuarios",
           icon: <User />,
-          text: "Contatos"
         },
         {
           link: "/dashboard/chats",
           icon: <MessageCircleMore />,
-          text: "Chats"
         },
         {
           link: "/dashboard/etiquetas",
           icon: <Tag />,
-          text: "Etiquetas"
         },
       ]
     },
   ];
-
-  useEffect(() => {
-    const currentPath = window.location.pathname;
-    setSelectedItem(currentPath);
-  }, []);
-
-
 
   return (
     <div className="fixed flex flex-col gap-4 w-[100px] min-w-[100px] border-r min-h-screen p-4">
@@ -58,21 +47,22 @@ export default function Sidebar() {
           height={60}
         />
       </div>
-      <div className="flex-grow">
+      <div className="flex-grow flex items-center justify-center">
         <Command style={{ overflow: 'visible' }}>
-          <CommandList style={{ overflow: 'visible' }}>
+          <CommandList style={{ overflow: 'visible' }} className="w-full">
             {menuList.map((menu, key) => (
-              <CommandGroup key={key} heading={menu.group}>
+              <CommandGroup key={key} heading={menu.group} className="w-full">
                 {menu.items.map((option, optionKey) => (
-                  <Link href={option.link} key={optionKey}>
+                  <Link href={option.link} key={optionKey} onClick={() => setSelectedItem(option.link)}>
                     <CommandItem
-                      className={`flex gap-2 cursor-pointer p-3 my-2 rounded-full transition-all duration-300 ${selectedItem === option.link
-                          ? 'bg-[#DB636F] text-white border-center-center-radius: 0.5rem 	;'
-                          : 'hover:bg-gray-200  border-center-center-radius: 0.5rem text-stone-600;'
+                      className={`flex items-center justify-center cursor-pointer p-3 my-2 rounded-full transition-all duration-300 w-full ${selectedItem === option.link
+                          ? 'bg-[#DB636F] text-white'
+                          : 'hover:bg-gray-200 text-stone-600'
                         }`}
-                      onClick={() => setSelectedItem(option.link)}
                     >
-                      {option.icon}
+                      <span className="flex items-center justify-center text-2xl">
+                        {option.icon}
+                      </span>
                     </CommandItem>
                   </Link>
                 ))}
@@ -81,12 +71,11 @@ export default function Sidebar() {
           </CommandList>
         </Command>
       </div>
+
       <div className="flex flex-col items-center justify-center h-full">
         <ModeToggle />
         <Profile />
-
       </div>
-
     </div>
   );
 }

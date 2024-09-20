@@ -2,9 +2,19 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { Input } from "@/components/ui/input"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+  } from "@/components/ui/card"
+  
+  import { Label } from "@/components/ui/label"
 
 const ProfilePage = () => {
     const [avatar, setAvatar] = useState("");
@@ -66,25 +76,27 @@ const ProfilePage = () => {
     };
 
     return (
-        <div className="max-w-3xl mx-auto p-4 flex">
+        <Card className="max-w-3xl mx-auto py-12 mt-24 px-8 flex">
         <div className="flex-shrink-0 mr-4"> {/* Espaço para o Avatar */}
+            <div className='flex flex-col justify-center items-center'>
             <Avatar className="h-32 w-32 mb-4">
                 <AvatarImage src={newAvatar || avatar || "https://github.com/shadcn.png"} />
                 <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-            <input
+            <Input
                 type="file"
                 accept="image/*"
                 onChange={handleAvatarChange}
                 className="mb-4"
             />
+            </div>
         </div>
-        <div className="flex-grow"> {/* Espaço para os Inputs */}
+        <div className="flex-grow pl-4"> {/* Espaço para os Inputs */}
             <h1 className="text-2xl font-bold mb-4">Perfil</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Nome</label>
-                    <input
+                    <Label className="block text-sm font-medium text-gray-300">Nome</Label>
+                    <Input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -93,8 +105,8 @@ const ProfilePage = () => {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Telefone</label>
-                    <input
+                    <Label className="block text-sm font-medium text-gray-300">Telefone</Label>
+                    <Input
                         type="tel"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
@@ -110,7 +122,7 @@ const ProfilePage = () => {
                 </button>
             </form>
         </div>
-    </div>
+    </Card>
     );
 };
 

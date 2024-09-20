@@ -14,10 +14,12 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, UserRoundPlus  } from "lucide-react";
+import { Search, UserRoundPlus, ArrowDownToLine   } from "lucide-react";
+import { Card } from '@/components/ui/card';
 
 function ContatoPage() {
     const [chats, setChats] = useState([]);
+    const [total, setTotal] = useState(0)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,7 +33,8 @@ function ContatoPage() {
                     }
                 );
                 const res = response.data;
-                console.log('contatos', res); // Acessa o array de contatos
+                const total = res.length
+                setTotal(total)
                 setChats(res); // Define o array de contatos no estado
             } catch (error) {
                 console.error('Erro ao obter contato:', error);
@@ -43,7 +46,8 @@ function ContatoPage() {
 
     return (
         <div className=''>
-            <h2 className='pt-2 pb-6'>Meus Contatos - (total)</h2>
+            
+            <h1 className='pt-2 pb-6'>{total} Contatos</h1>
             <div className='flex justify-start'>
                 <div className="relative w-1/6 items-center">
                     <Input className="pl-14 mr-12 py-4" placeholder="Pesquisar" />
@@ -52,6 +56,11 @@ function ContatoPage() {
                 <div className='pl-4'>
                     <Button>
                     <UserRoundPlus className="mr-2 h-4 w-4"/> Adicionar Contato    
+                    </Button>
+                </div>
+                <div className='pl-4'>
+                    <Button>
+                    <ArrowDownToLine className="mr-2 h-4 w-4"/> Exportar Contatos   
                     </Button>
                 </div>
             </div>
