@@ -23,7 +23,7 @@ function ContatoPage() {
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    'http://localhost:3005/user/contato',
+                    'http://157.173.107.5/3005/user/contato',
                     {
                         headers: {
                             authorization: `${Cookies.get('token')}`,

@@ -26,7 +26,7 @@ function HomeComponent() {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3005/user/numero', {
+      const response = await fetch('http://157.173.107.5/3005/user/numero', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
