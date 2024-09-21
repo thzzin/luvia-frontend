@@ -50,11 +50,14 @@ const LabelsPage = () => {
     // Função para carregar etiquetas
     const loadLabels = async () => {
         try {
-            const response = await axios.get('/api/labels', {
-                headers: {
-                    authorization: `${Cookies.get('token')}`,
-                },
-            });
+            const response = await axios.get(
+                `https://getluvia.com.br:3005/user/etiquetas`,
+                {
+                    headers: {
+                        authorization: `${Cookies.get('token')}`,
+                    },
+                }
+            );
             setLabels(response.data); // Define o estado com as etiquetas
         } catch (error) {
             console.error("Erro ao carregar etiquetas:", error);
@@ -68,7 +71,7 @@ const LabelsPage = () => {
     const handleAddLabel = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('/api/labels', { name: labelName, color: labelColor }, {
+            await axios.post('https://getluvia.com.br:3005/user/labels', { name: labelName, color: labelColor }, {
                 headers: {
                     authorization: `${Cookies.get('token')}`,
                 },

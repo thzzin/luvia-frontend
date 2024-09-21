@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation"; // Para redirecionamento
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -15,7 +16,7 @@ interface Props{
 // Componente para mensagens enviadas
 function MessageSent({ content, timestamp }) {
   return (
-    <div className="flex justify-end mb-4">
+    <div className="flex justify-end mb-4 mr-4">
       <div className="bg-[#DB636F] text-white p-4 rounded-lg max-w-xs">
         <p>{content}</p>
         <span className="text-xs text-gray-200">{timestamp}</span>
@@ -27,7 +28,7 @@ function MessageSent({ content, timestamp }) {
 // Componente para mensagens recebidas
 function MessageReceived({ content, timestamp }) {
   return (
-    <div className="flex justify-start mb-4">
+    <div className="flex justify-start mb-4 ml-4">
       <div className="bg-gray-300 text-black p-4 rounded-lg max-w-xs">
         <p>{content}</p>
         <span className="text-xs text-gray-500">{timestamp}</span>
@@ -45,24 +46,23 @@ export default function ChatPage({ idchat }) {
   const [phone, setPhone] = useState("")
   const newMsg = {
     content: newMessage,
-    conversation_id: idchat,  // ID da conversa para associar a mensagem
-    message_type: 1,  // Tipo de mensagem enviada
+    conversation_id: idchat,  
+    message_type: 1,  
     status: "sent",
   };
   useEffect(() => {
     const searchChat = async () => {
       try {
         const response = await axios.get(
-          `http://157.173.107.5:3005/user/conversa/${idchat}`, // URL da API
+          `https://getluvia.com.br:3005/user/conversa/${idchat}`, 
           {
             headers: {
-              authorization: `${Cookies.get('token')}`, // Token de autorização
+              authorization: `${Cookies.get('token')}`, 
             },
           }
         );
   
-        // A estrutura deve ser ajustada de acordo com a resposta da API
-        const chatData = response.data; // Resposta completa da API
+        const chatData = response.data; 
         const formattedMessages = chatData.mensagens.map((msg) => ({
           id: msg.id,
           type: msg.type, // "sent" ou "received"
@@ -70,11 +70,10 @@ export default function ChatPage({ idchat }) {
           timestamp: new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             }));
         
-        // Armazenar os dados do contato
         setAvatar(chatData.contatoThumbnail);
         setName(chatData.contatoName);
         setPhone(chatData.contatoPhone);
-        setMessages(formattedMessages); // Atualiza o estado com as mensagens reais
+        setMessages(formattedMessages); 
       } catch (error) {
         console.error("Erro ao obter mensagens do chat:", error);
       }
@@ -87,32 +86,31 @@ export default function ChatPage({ idchat }) {
 
   const handleSendMessage = async () => {
     const response = await axios.post(
-      'http://157.173.107.5:3005/user/addmsg',  // URL da API
-      newMsg,  // Corpo da requisição com a nova mensagem
+      'https://getluvia.com.br:3005/user/addmsg',  
+      newMsg,  
       {
         headers: {
-          authorization: `${Cookies.get('token')}`,  // Cabeçalhos com token de autorização
+          authorization: `${Cookies.get('token')}`,  
         },
       }
     );
 
-    // Adiciona a nova mensagem ao estado local após a confirmação do backend
     setMessages([...messages, {
-      id: response.data.id,  // ID retornado pela API
+      id: response.data.id,  
       type: "sent",
       content: newMessage,
       timestamp: new Date().toLocaleTimeString(),
     }]);
 
-    setNewMessage(""); // Limpa o campo de mensagem
+    setNewMessage(""); 
   };
 
   return (
-    <div className="flex flex-col h-full">
-    {/* Coloca o ChatHeader no topo */}
+    <div className="flex flex-col h-screen max-h-[93vh]">
     <ChatHeader avatar={avatar} name={name} phone={phone} />
 
-    <div className="flex-grow p-4 overflow-y-auto">
+    <ScrollArea>
+    <div className="flex-grow p-4 overflow-y-auto max-h-85">
         <div className="flex flex-col gap-4">
             {messages.length > 0 ? (
                 messages.map((message) =>
@@ -127,8 +125,7 @@ export default function ChatPage({ idchat }) {
             )}
         </div>
     </div>
-
-    {/* Componente para digitar e enviar a resposta */}
+    </ScrollArea>
     <div className="p-4 border-t flex items-center gap-2">
         <Input
             className="flex-grow py-6"
@@ -136,8 +133,9 @@ export default function ChatPage({ idchat }) {
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
         />
-        <Button  onClick={handleSendMessage}>Enviar</Button>
+        <Button onClick={handleSendMessage}>Enviar</Button>
     </div>
 </div>
+
   );
 }

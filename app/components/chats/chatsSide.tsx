@@ -1,12 +1,11 @@
 "use client";
-import { useRouter } from "next/navigation"; // Para redirecionamento
+import { useRouter } from "next/navigation"; 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function ChatsSide({ chats }) {
     const router = useRouter();
 
     const handleChatClick = (senderId) => {
-        // Redireciona para a página da conversa, passando o sender.id
         router.push(`/dashboard/chats/${senderId}`);
     };
 
@@ -26,7 +25,6 @@ export default function ChatsSide({ chats }) {
                         >
                             <div className="flex items-start justify-start mr-4">
                                 <Avatar className="h-14 w-14">
-                                    {/* Usa um fallback se não houver thumbnail */}
                                     <AvatarImage src={avatar || "https://via.placeholder.com/150"} />
                                     <AvatarFallback>{name?.charAt(0)}</AvatarFallback>
                                 </Avatar>

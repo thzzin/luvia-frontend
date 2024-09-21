@@ -20,7 +20,7 @@ export default function Component() {
 
     try {
 
-      const response = await axios.post('http://157.173.107.5:3005/auth/login',   
+      const response = await axios.post('https://getluvia.com.br:3005/auth/login',   
         {
                email,
                password,

@@ -25,7 +25,7 @@ function ContatoPage() {
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    'http://157.173.107.5:3005/user/contato',
+                    'https://getluvia.com.br:3005/user/contato',
                     {
                         headers: {
                             authorization: `${Cookies.get('token')}`,

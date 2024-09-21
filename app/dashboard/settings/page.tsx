@@ -14,7 +14,7 @@ function SettingsPage(){
         event.preventDefault();
     
         try {
-          const response = await fetch('http://157.173.107.5:3005/user/tokens', {
+          const response = await fetch('https://getluvia.com.br:3005/user/tokens', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
