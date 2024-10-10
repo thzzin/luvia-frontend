@@ -12,11 +12,11 @@ function ChatsPage({params}: Props) {
     const chatId = params.chat; // Aqui pegamos o ID do chat da URL
     
     return (
-        <div className='flex justify-between'>
+        <div className='flex justify-between '>
             <div className='flex '>
                 <SideChats />
             </div>
-            <div className="flex-grow">
+            <div className="flex-grow min-h-[90vh]">
         {chatId ? (
           <ChatPage idchat={chatId} />
         ) : (

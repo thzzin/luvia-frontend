@@ -9,6 +9,16 @@ import {
   CommandList,
 } from "@/components/ui/command";
 
+
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+
 import { User, MessageCircleMore, Tag } from "lucide-react";
 import Image from 'next/image';
 import Profile from './Profile';
@@ -38,7 +48,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="fixed flex flex-col gap-4 w-[100px] min-w-[100px] border-r min-h-screen p-4">
+    <div className="fixed flex flex-col gap-4 w-[100px] min-w-[100px] max-w[100px] border-r min-h-screen p-4">
       <div className="flex justify-start items-start">
         <Image
           src="/logowhite.png"
@@ -49,6 +59,7 @@ export default function Sidebar() {
       </div>
       <div className="flex-grow flex items-center justify-center">
         <Command style={{ overflow: 'visible' }}>
+          <Card>
           <CommandList style={{ overflow: 'visible' }} className="w-full">
             {menuList.map((menu, key) => (
               <CommandGroup key={key} heading={menu.group} className="w-full">
@@ -69,6 +80,7 @@ export default function Sidebar() {
               </CommandGroup>
             ))}
           </CommandList>
+          </Card>
         </Command>
       </div>
 
