@@ -1,10 +1,10 @@
+// pages/politica-de-privacidade.js
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Container } from '@/components/ui/container';
-import { Typography } from '@/components/ui/typography';
+
 
 export default function PoliticaDePrivacidade() {
   return (
-    <Container className="py-8">
+    <Card className="py-8">
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-bold">
@@ -12,7 +12,7 @@ export default function PoliticaDePrivacidade() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <Typography>
+        
             <p>
               Bem-vindo à nossa Política de Privacidade. Sua privacidade é
               extremamente importante para nós e temos o compromisso de
@@ -20,10 +20,10 @@ export default function PoliticaDePrivacidade() {
               usamos, compartilhamos e protegemos as suas informações no
               contexto do uso do WhatsApp, de propriedade da Meta Platforms, Inc.
             </p>
-          </Typography>
+       
 
-          <Typography variant="h4">1. Informações que Coletamos</Typography>
-          <Typography>
+          <h4 >1. Informações que Coletamos</h4>
+      
             <p>
               Ao usar o WhatsApp, coletamos diferentes tipos de informações,
               incluindo:
@@ -34,10 +34,9 @@ export default function PoliticaDePrivacidade() {
               <li>Localização, caso seja permitida por você.</li>
               <li>Mensagens enviadas e recebidas.</li>
             </ul>
-          </Typography>
+     
 
-          <Typography variant="h4">2. Como Usamos Suas Informações</Typography>
-          <Typography>
+          <h4 >2. Como Usamos Suas Informações</h4>
             <p>
               Utilizamos as informações coletadas para fornecer nossos serviços,
               personalizar sua experiência e melhorar o desempenho do
@@ -48,10 +47,9 @@ export default function PoliticaDePrivacidade() {
               <li>Personalizar a experiência do usuário com base nas interações.</li>
               <li>Analisar o comportamento do usuário para aprimorar nossos serviços.</li>
             </ul>
-          </Typography>
 
-          <Typography variant="h4">3. Compartilhamento de Informações</Typography>
-          <Typography>
+          <h4 >3. Compartilhamento de Informações</h4>
+       
             <p>
               Nós compartilhamos suas informações apenas com terceiros em
               circunstâncias limitadas, como:
@@ -61,10 +59,10 @@ export default function PoliticaDePrivacidade() {
               <li>Quando exigido por lei ou para proteger nossos direitos.</li>
               <li>Com o seu consentimento explícito para outros compartilhamentos.</li>
             </ul>
-          </Typography>
+        
 
-          <Typography variant="h4">4. Segurança dos Dados</Typography>
-          <Typography>
+          <h4 >4. Segurança dos Dados</h4>
+          
             <p>
               Adotamos medidas de segurança apropriadas para proteger suas
               informações contra acesso não autorizado, alteração ou destruição.
@@ -73,27 +71,23 @@ export default function PoliticaDePrivacidade() {
               No entanto, apesar dos nossos esforços, nenhuma medida de
               segurança é completamente impenetrável.
             </p>
-          </Typography>
+        
 
-          <Typography variant="h4">5. Seus Direitos</Typography>
-          <Typography>
+          <h4 >5. Seus Direitos</h4>
             <p>
               Você tem o direito de acessar, corrigir ou excluir suas
               informações pessoais. Caso queira exercer qualquer um desses
               direitos, entre em contato conosco por meio do suporte do WhatsApp.
             </p>
-          </Typography>
 
-          <Typography variant="h4">6. Alterações nesta Política</Typography>
-          <Typography>
+          <h4 >6. Alterações nesta Política</h4>
             <p>
               Esta política pode ser atualizada de tempos em tempos. Notificaremos
               você sobre qualquer mudança significativa por meio de um aviso no
               WhatsApp ou outros meios apropriados.
             </p>
-          </Typography>
         </CardContent>
       </Card>
-    </Container>
+    </Card>
   );
 }
