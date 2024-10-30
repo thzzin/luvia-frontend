@@ -2,128 +2,207 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { Input } from "@/components/ui/input"
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card"
-  
-  import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import UploadPlanilha from '@/app/components/perfil/uploadPlanilha';
 
 const ProfilePage = () => {
     const [avatar, setAvatar] = useState("");
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
-    const [newAvatar, setNewAvatar] = useState("");
+    const [address, setAddress] = useState("");
+    const [website, setWebsite] = useState("");
+    const [description, setDescription] = useState("");
+    const [email, setEmail] = useState("");
+    const [newAvatar, setNewAvatar] = useState(null);
 
-    // Função para carregar dados do perfil (substitua pela sua lógica)
+    // Função para carregar dados do perfil
     const loadProfile = async () => {
         try {
-            const response = await axios.get('/api/profile', {
+            const response = await axios.get('https://getluvia.com.br:3005/user/perfil', {
                 headers: {
                     authorization: `${Cookies.get('token')}`,
                 },
             });
-            const { avatar, name, phone } = response.data;
-            setAvatar(avatar);
-            setName(name);
+            const { avatarurl, about, phone, address, website, description, email } = response.data;
+            setAvatar(avatarurl);
+            setName(about);
             setPhone(phone);
+            setAddress(address);
+            setWebsite(website);
+            setDescription(description);
+            setEmail(email);
+            console.log('avatar', avatar)
         } catch (error) {
             console.error("Erro ao carregar perfil:", error);
         }
     };
 
-    // Chame loadProfile quando o componente for montado
     useEffect(() => {
         loadProfile();
     }, []);
 
+    // Manipulação do arquivo de avatar
     const handleAvatarChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            setNewAvatar(file);
             const reader = new FileReader();
             reader.onloadend = () => {
-                setNewAvatar(reader.result);
+                setAvatar(reader.result);
             };
             reader.readAsDataURL(file);
         }
     };
 
-    const handleSubmit = async (e) => {
+    // Envio do novo avatar
+    const handleAvatarSubmit = async (e) => {
         e.preventDefault();
+        const formData = new FormData();
+
+        if (newAvatar) {
+            formData.append('file', newAvatar); // Use 'file'
+        }
+
         try {
-            await axios.put('/api/profile', {
-                avatar: newAvatar || avatar,
-                name,
-                phone,
-            }, {
+            await axios.post('https://getluvia.com.br:3005/user/avatar', formData, {
                 headers: {
+                    'Content-Type': 'multipart/form-data',
                     authorization: `${Cookies.get('token')}`,
                 },
             });
-            alert("Perfil atualizado com sucesso!");
-            // Opcional: recarregar os dados do perfil
-            loadProfile();
+            alert("Avatar atualizado com sucesso!");
+            loadProfile(); // Recarrega os dados do perfil
         } catch (error) {
-            console.error("Erro ao atualizar perfil:", error);
+            console.error("Erro ao atualizar avatar:", error);
         }
     };
 
+    // Envio das informações do perfil
+   const handleSubmit = async (e) => {
+    e.preventDefault();
+    const updateData = {
+        about: name,
+        phone: phone,
+        address: address,
+        websites: [website, ''], // Aqui estamos enviando como um array
+        description: description,
+        email: email,
+    };
+
+    console.log("Dados a serem enviados:", updateData); // Adicione esta linha para depuração
+
+    try {
+        const response = await axios.put('https://getluvia.com.br:3005/user/perfil', updateData, {
+            headers: {
+                authorization: `${Cookies.get('token')}`,
+            },
+        });
+        alert("Perfil atualizado com sucesso!");
+        loadProfile(); // Recarrega os dados do perfil
+    } catch (error) {
+        console.error("Erro ao atualizar perfil:", error);
+    }
+};
+
+
     return (
-        <Card className="max-w-3xl mx-auto py-12 mt-24 px-8 flex">
-        <div className="flex-shrink-0 mr-4"> {/* Espaço para o Avatar */}
-            <div className='flex flex-col justify-center items-center'>
-            <Avatar className="h-32 w-32 mb-4">
-                <AvatarImage src={newAvatar || avatar || "https://github.com/shadcn.png"} />
-                <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <Input
-                type="file"
-                accept="image/*"
-                onChange={handleAvatarChange}
-                className="mb-4"
-            />
-            </div>
-        </div>
-        <div className="flex-grow pl-4"> {/* Espaço para os Inputs */}
-            <h1 className="text-2xl font-bold mb-4">Perfil</h1>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <Label className="block text-sm font-medium text-gray-300">Nome</Label>
-                    <Input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                        required
-                    />
+        <div>
+            <Card className="max-w-3xl mx-auto py-12 mt-24 px-8 flex justify-center align-middle">
+               
+
+                {/* Seção para informações do perfil */}
+                <div className="flex-grow pl-4">
+                    <h1 className="text-2xl font-bold mb-4">Informações do Perfil</h1>
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                       
+                        <div>
+                            <Label className="block text-sm font-medium text-gray-300">Telefone</Label>
+                            <Input
+                                type="tel"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                                disabled
+                            />
+                        </div>
+                        <div>
+                            <Label className="block text-sm font-medium text-gray-300">Endereço</Label>
+                            <Input
+                                type="text"
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
+                                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <Label className="block text-sm font-medium text-gray-300">Descrição</Label>
+                                                       <Input
+                                type="text"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                                required
+                            />
+                        </div>
+                        {/* <div>
+                            <Label className="block text-sm font-medium text-gray-300">Web Site</Label>
+                            <Input
+                                type="url"
+                                value={website}
+                                placeholder='https://'
+                                onChange={(e) => setWebsite(e.target.value)}
+                                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                                required
+                            />
+                        </div> */}
+                        <button
+                            type="submit"
+                            className="w-full bg-[#DB636F] text-white py-2 rounded-md hover:bg-[#D34E5C]"
+                        >
+                            Atualizar Informações do Perfil
+                        </button>
+                    </form>
                 </div>
-                <div>
-                    <Label className="block text-sm font-medium text-gray-300">Telefone</Label>
-                    <Input
-                        type="tel"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                        required
+
+                 {/* Seção do Avatar */}
+                <div className="flex-shrink-0 ml-8">
+                    <div className='flex flex-col justify-center items-center'>
+                        <Avatar className="h-32 w-32 mb-4">
+                            <AvatarImage src={avatar || "https://github.com/shadcn.png"} />
+                            <img 
+                        src={"https://getluvia.com.br:3005/user/uploads/1730319457719-db.png"} 
+                        alt="Imagem enviada" 
+                        className="max-w-full h-auto rounded-lg" 
                     />
+                            <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                        <form onSubmit={handleAvatarSubmit} className="flex flex-col items-center">
+                            <Input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleAvatarChange}
+                                className="mb-4"
+                            />
+                            <button
+                                type="submit"
+                                className="w-full bg-[#DB636F] text-white py-2 rounded-md hover:bg-[#D34E5C]"
+                            >
+                                Atualizar Foto
+                            </button>
+                        </form>
+                    </div>
                 </div>
-                <button
-                    type="submit"
-                    className="w-full bg-[#DB636F] text-white py-2 rounded-md hover:bg-[#D34E5C]"
-                >
-                    Atualizar Perfil
-                </button>
-            </form>
+            </Card>
+
+            {/* Seção de Upload de Planilha usando o novo componente */}
+            <UploadPlanilha />
         </div>
-    </Card>
     );
 };
 
 export default ProfilePage;
+

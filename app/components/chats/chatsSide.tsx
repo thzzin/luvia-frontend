@@ -9,24 +9,24 @@ export default function ChatsSide({ chats }) {
         router.push(`/dashboard/chats/${senderId}`);
     };
 
-    // Função para formatar a data da última mensagem
+    // Function to format the last message time
     const formatLastMessageTime = (createdAt) => {
         const messageDate = new Date(createdAt);
         const today = new Date();
         const yesterday = new Date();
         yesterday.setDate(today.getDate() - 1);
 
-        // Verifica se a data da mensagem é hoje
+        // Check if the message date is today
         if (messageDate.toDateString() === today.toDateString()) {
             return messageDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
 
-        // Verifica se a data da mensagem é ontem
+        // Check if the message date is yesterday
         if (messageDate.toDateString() === yesterday.toDateString()) {
             return "Ontem";
         }
 
-        // Retorna a data no formato DD/MM
+        // Return the date in DD/MM format
         return messageDate.toLocaleDateString([], { day: '2-digit', month: '2-digit' });
     };
 
@@ -39,19 +39,22 @@ export default function ChatsSide({ chats }) {
                     const name = chat.contatoName;
                     const avatar = chat.contatoThumbnail;
 
-                    let lastMessageContent;
-if (lastMessage.type === "image") {
-    lastMessageContent = "📷 Imagem";
-} else if (lastMessage.type === "audio") {
-    lastMessageContent = "🎵 Áudio";
-} else if (lastMessage.type === "document") {
-    lastMessageContent = "📄 Documento"; // Adicione esta linha para documentos
-} else {
-    lastMessageContent = lastMessage.content || "Sem conteúdo";
-}
+                    let lastMessageContent = "Sem conteúdo"; // Default content
 
+                    // Check if lastMessage exists before accessing its properties
+                    if (lastMessage && lastMessage.type) {
+                        if (lastMessage.type === "image") {
+                            lastMessageContent = "📷 Imagem";
+                        } else if (lastMessage.type === "audio") {
+                            lastMessageContent = "🎵 Áudio";
+                        } else if (lastMessage.type === "document") {
+                            lastMessageContent = "📄 Documento"; 
+                        } else {
+                            lastMessageContent = lastMessage.content || "Sem conteúdo";
+                        }
+                    }
 
-                    const lastMessageTime = formatLastMessageTime(lastMessage.createdAt);
+                    const lastMessageTime = lastMessage ? formatLastMessageTime(lastMessage.createdAt) : "Sem data"; // Handle absence of lastMessage
 
                     return (
                         <button 

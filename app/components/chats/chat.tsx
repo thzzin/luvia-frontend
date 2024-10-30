@@ -45,9 +45,11 @@ function MessageSent({ content, timestamp, type }) {
                 )}
                 
                 {type === "image" && (
-                    <span className="absolute bottom-2 right-2 text-xs text-white bg-black bg-opacity-50 p-1 rounded">
-                        {timestamp}
-                    </span>
+                    
+                    
+                                        <img src={content} alt="Imagem" className="max-w-full h-auto rounded-lg" />
+
+                    
                 )}
                 
                 {type !== "image" && (
