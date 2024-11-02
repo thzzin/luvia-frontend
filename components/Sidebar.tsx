@@ -1,93 +1,77 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link'; // Importe o componente Link do Next.js
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-
-
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-
+import Link from 'next/link';
+import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
+import { Card } from "@/components/ui/card";
 import { User, MessageCircleMore, Tag } from "lucide-react";
 import Image from 'next/image';
 import Profile from './Profile';
 import { ModeToggle } from './ModeToggle';
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@/components/ui/navigation-menu";
 
 export default function Sidebar() {
-  const [selectedItem, setSelectedItem] = useState('/'); // Ou qualquer caminho padrão
+  const [selectedItem, setSelectedItem] = useState('/');
 
   const menuList = [
     {
       group: "",
       items: [
-        {
-          link: "/dashboard/usuarios",
-          icon: <User />,
-        },
-        {
-          link: "/dashboard/chats",
-          icon: <MessageCircleMore />,
-        },
-        {
-          link: "/dashboard/etiquetas",
-          icon: <Tag />,
-        },
+        { link: "/dashboard/usuarios", icon: <User /> },
+        { link: "/dashboard/chats", icon: <MessageCircleMore /> },
+        { link: "/dashboard/etiquetas", icon: <Tag /> },
       ]
     },
   ];
 
   return (
-    <div className="fixed flex flex-col gap-4 w-[100px] min-w-[100px] max-w[100px] border-r min-h-screen p-4">
-      <div className="flex justify-start items-start">
-        <Image
-          src="/logowhite.png"
-          alt="Logo"
-          width={60}
-          height={60}
-        />
-      </div>
-      <div className="flex-grow flex items-center justify-center">
-        <Command style={{ overflow: 'visible' }}>
-          <Card>
-          <CommandList style={{ overflow: 'visible' }} className="w-full">
-            {menuList.map((menu, key) => (
-              <CommandGroup key={key} heading={menu.group} className="w-full">
-                {menu.items.map((option, optionKey) => (
-                  <Link href={option.link} key={optionKey} onClick={() => setSelectedItem(option.link)}>
-                    <CommandItem
-                      className={`flex items-center justify-center cursor-pointer p-3 my-2 rounded-full transition-all duration-300 w-full ${selectedItem === option.link
-                          ? 'bg-[#DB636F] text-white'
-                          : 'hover:bg-gray-200 text-stone-600'
-                        }`}
-                    >
-                      <span className="flex items-center justify-center text-2xl">
-                        {option.icon}
-                      </span>
-                    </CommandItem>
-                  </Link>
-                ))}
-              </CommandGroup>
-            ))}
-          </CommandList>
-          </Card>
-        </Command>
+    <div className="fixed bottom-0 left-0 w-full md:w-[100px] md:flex md:flex-col md:min-h-screen md:border-r p-4 bg-white shadow md:bg-transparent z-50 flex justify-around items-center">
+      {/* Logo */}
+      <div className="flex justify-center items-center">
+        <Image src="/logowhite.png" alt="Logo" width={50} height={50} />
       </div>
 
-      <div className="flex flex-col items-center justify-center h-full">
-        <ModeToggle />
-        <Profile />
+      {/* Menu */}
+<div className="flex flex-row md:flex-col items-center py-2 justify-center w-full">
+        <NavigationMenu className="w-full max-w-[300px] md:max-w-full">
+          <Card className="w-full">
+            <NavigationMenuList className="flex flex-row gap-4 md:flex-col items-center justify-center">
+              {menuList.map((menu, key) => (
+                <div key={key} className="flex flex-row gap-2 py-2 md:flex-col items-center">
+                  {menu.items.map((option, optionKey) => (
+                    <NavigationMenuItem key={optionKey}>
+                      <Link href={option.link} onClick={() => setSelectedItem(option.link)}>
+                        <span
+                          className={`flex items-center justify-center cursor-pointer p-3 rounded-full transition-all duration-300 ${
+                            selectedItem === option.link ? 'bg-[#DB636F] text-white' : 'hover:bg-gray-200 text-stone-600'
+                          }`}
+                        >
+                          <span className="flex items-center justify-center text-2xl">
+                            {option.icon}
+                          </span>
+                        </span>
+                      </Link>
+                    </NavigationMenuItem>
+                  ))}
+                </div>
+              ))}
+            </NavigationMenuList>
+          </Card>
+        </NavigationMenu>
       </div>
+
+
+
+      {/* Toggle e Perfil */}
+     <div className="flex flex-row md:flex-col items-center justify-center gap-4 h-full">
+  <div className="flex items-center justify-center h-full">
+    <ModeToggle />
+  </div>
+  <div className="flex items-center justify-center h-full">
+    <Profile />
+  </div>
+</div>
+
     </div>
   );
 }

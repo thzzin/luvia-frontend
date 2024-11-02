@@ -4,41 +4,26 @@ import * as React from "react"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-
-
 export function ModeToggle() {
-  const { setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme()
+
+  const handleToggle = () => {
+    setTheme(resolvedTheme === "light" ? "dark" : "light")
+  }
 
   return (
-    <div className="my-6">
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon">
-            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            <span className="sr-only">Toggle theme</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => setTheme("light")}>
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 pr-1" />
-             Claro
-
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme("dark")}>
-          <Moon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 pr-1" />
-            Escuro
-          </DropdownMenuItem>
-         
-        </DropdownMenuContent>
-      </DropdownMenu>
+    <div className="flex items-center">
+      <button
+        onClick={handleToggle}
+        className="flex items-center justify-center p-2 transition-all rounded-md bg-gray-200 dark:bg-gray-700"
+        aria-label="Toggle theme"
+      >
+        <Sun className={`h-4 w-4 md:h-5 md:w-5 transition-transform ${resolvedTheme === "dark" ? "rotate-90 scale-0" : "rotate-0 scale-100"}`} />
+        <Moon className={`h-4 w-4 md:h-5 md:w-5 transition-transform absolute ${resolvedTheme === "dark" ? "rotate-0 scale-100" : "rotate-90 scale-0"}`} />
+        
+        
+      </button>
+      <span className="sr-only">Toggle theme</span>
     </div>
   )
 }

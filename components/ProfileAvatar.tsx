@@ -3,7 +3,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
-
+import { ModeToggle } from "./ModeToggle";
 import { User, Settings, MessageSquareMore, Tag, LogOut, TrendingUpDown } from "lucide-react";
 
 export function ProfileAvatar() {
@@ -19,23 +19,26 @@ export function ProfileAvatar() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 z-[99998]">
-               
+                 <DropdownMenuItem>
+                  <ModeToggle />  
+                </DropdownMenuItem>
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
                     <User  className="w-4 h-4 mr-1"/>
                     <Link href="/dashboard/perfil">Meu Perfil</Link>
                     </DropdownMenuItem>
                    
-                    <DropdownMenuItem>
+                    {/* <DropdownMenuItem>
                     <Settings   className="w-4 h-4 mr-1"/>
                     <Link href="/dashboard/settings">Configurações</Link>
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                 </DropdownMenuGroup>
                 <DropdownMenuItem>
                     <MessageSquareMore   className="w-4 h-4 mr-1"/>
 
                         Suporte
                     </DropdownMenuItem>
+              
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="text-red-600	">
                 <LogOut className="w-4 h-4 mr-1"/>

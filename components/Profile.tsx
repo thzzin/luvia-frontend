@@ -34,7 +34,7 @@ export default function Profile() {
         fetchData();
       }, []);
     return (
-        <div className="w-full flex items-center justify-center mb-4 pb-4  border-b">
+        <div className="w-full flex items-center justify-center mb-4 pb-4 md:pb-0 border-b">
                         <ProfileAvatar />
         </div>
     )
